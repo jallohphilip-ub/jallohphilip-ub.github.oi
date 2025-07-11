@@ -1,0 +1,129 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = htmlspecialchars($_POST["name"]);
+    $phone = htmlspecialchars($_POST["phone"]);
+    $address = htmlspecialchars($_POST["address"]);
+    $food = htmlspecialchars($_POST["food"]);
+    $quantity = htmlspecialchars($_POST["quantity"]);
+    $message = htmlspecialchars($_POST["message"]);
+    // Here you would save to a database or send an email
+    $success = true;
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kono Musu's Kitchen - Food Delivery</title>
+  <style>
+    body { margin:0; font-family:'Segoe UI',sans-serif; background:#fffbe9; color:#333; }
+    header { background:#a52a2a; color:#fff; padding:24px 0; text-align:center; }
+    nav a { color:#fff; margin:0 18px; text-decoration:none; font-weight:500; }
+    nav a:hover { color:#ffd700; }
+    .hero { background:#fff8e1; text-align:center; padding:60px 20px 40px 20px; }
+    .hero h1 { font-size:2.7em; margin:0; color:#a52a2a; }
+    .hero p { font-size:1.2em; margin-top:18px; }
+    .order-section { max-width:500px; margin:40px auto; background:#fff; border-radius:14px; box-shadow:0 2px 16px rgba(0,0,0,0.09); padding:36px 28px; }
+    .order-section h2 { color:#a52a2a; margin-top:0; }
+    label { display:block; margin-bottom:8px; color:#a52a2a; font-weight:500; }
+    input, select, textarea { width:100%; padding:12px; margin-bottom:18px; border:1px solid #ccc; border-radius:7px; font-size:1em; background:#fffbe9; }
+    textarea { min-height:80px; }
+    .cta-btn { background:#ffd700; color:#a52a2a; border:none; padding:14px 36px; font-size:1.1em; border-radius:30px; cursor:pointer; font-weight:bold; transition:background 0.2s; }
+    .cta-btn:hover { background:#ffe066; }
+    .menu { margin:40px auto; max-width:700px; }
+    .menu h2 { color:#a52a2a; }
+    .menu-list { display:flex; flex-wrap:wrap; gap:32px; justify-content:center; }
+    .menu-item { background:#fff; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.08); padding:24px 18px; width:220px; text-align:center; }
+    .menu-item h3 { margin:0 0 10px 0; color:#a52a2a; }
+    .menu-item p { margin:0; color:#555; }
+    .footer { background:#a52a2a; color:#fff; text-align:center; padding:20px; margin-top:40px; }
+    @media (max-width:700px) { .menu-list { flex-direction:column; align-items:center; } }
+  </style>
+  <script>
+    function validateForm() {
+      var name = document.forms["orderForm"]["name"].value;
+      var phone = document.forms["orderForm"]["phone"].value;
+      var address = document.forms["orderForm"]["address"].value;
+      var food = document.forms["orderForm"]["food"].value;
+      var quantity = document.forms["orderForm"]["quantity"].value;
+      if (!name || !phone || !address || !food || !quantity) {
+        alert(\"Please fill in all required fields.\");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Kono Musu's Kitchen</h1>
+    <nav>
+      <a href=\"#\">Home</a>
+      <a href=\"#menu\">Menu</a>
+      <a href=\"#order\">Order</a>
+      <a href=\"#contact\">Contact</a>
+    </nav>
+  </header>
+  <div class=\"hero\">
+    <h1>Delicious Home-Cooked Meals Delivered!</h1>
+    <p>Order authentic Sierra Leonean cuisine from Jenneh Morlai.<br>
+    Fast delivery, fresh ingredients, and a taste of home.</p>
+  </div>
+  <div class=\"menu\" id=\"menu\">
+    <h2>Our Menu</h2>
+    <div class=\"menu-list\">
+      <div class=\"menu-item\">
+        <h3>Jollof Rice</h3>
+        <p>Spicy tomato rice with chicken or fish</p>
+        <p><strong>Le 50,000</strong></p>
+      </div>
+      <div class=\"menu-item\">
+        <h3>Cassava Leaves</h3>
+        <p>Rich cassava leaf stew with beef</p>
+        <p><strong>Le 60,000</strong></p>
+      </div>
+      <div class=\"menu-item\">
+        <h3>Fried Plantains</h3>
+        <p>Sweet, crispy plantains</p>
+        <p><strong>Le 20,000</strong></p>
+      </div>
+      <div class=\"menu-item\">
+        <h3>Groundnut Soup</h3>
+        <p>Peanut soup with rice balls</p>
+        <p><strong>Le 55,000</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class=\"order-section\" id=\"order\">
+    <h2>Place Your Order</h2>
+    <?php if (isset($success) && $success): ?>
+      <p style=\"color:green;font-weight:bold;\">Thank you! Your order has been received.</p>
+    <?php endif; ?>
+    <form name=\"orderForm\" method=\"post\" onsubmit=\"return validateForm();\">
+      <label for=\"name\">Name</label>
+      <input type=\"text\" id=\"name\" name=\"name\" required>
+      <label for=\"phone\">Phone</label>
+      <input type=\"text\" id=\"phone\" name=\"phone\" required>
+      <label for=\"address\">Delivery Address</label>
+      <input type=\"text\" id=\"address\" name=\"address\" required>
+      <label for=\"food\">Food Item</label>
+      <select id=\"food\" name=\"food\" required>
+        <option value=\"\">Select a dish</option>
+        <option value=\"Jollof Rice\">Jollof Rice</option>
+        <option value=\"Cassava Leaves\">Cassava Leaves</option>
+        <option value=\"Fried Plantains\">Fried Plantains</option>
+        <option value=\"Groundnut Soup\">Groundnut Soup</option>
+      </select>
+      <label for=\"quantity\">Quantity</label>
+      <input type=\"number\" id=\"quantity\" name=\"quantity\" min=\"1\" max=\"20\" required>
+      <label for=\"message\">Special Instructions</label>
+      <textarea id=\"message\" name=\"message\" placeholder=\"Any allergies or delivery notes?\"></textarea>
+      <button type=\"submit\" class=\"cta-btn\">Order Now</button>
+    </form>
+  </div>
+  <div class=\"footer\" id=\"contact\">
+    &copy; 2025 Kono Musu's Kitchen | Jenneh Morlai | Facebook: <a href=\"https://facebook.com/jenneh.morlai\" style=\"color:#ffd700;\">jenneh.morlai</a>
+  </div>
+</body>
+</html>
